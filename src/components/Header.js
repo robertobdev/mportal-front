@@ -1,0 +1,34 @@
+import React from 'react';
+import styled from 'styled-components';
+
+const Header = () => (
+  <Container>
+    <Logo>Mportal</Logo>
+    <Button logIn>Login</Button>
+    <Button>Cadastrar</Button>
+  </Container>
+);
+export default Header;
+
+const Container = styled.div`
+  margin: 20px;
+  display: flex;
+  align-items: center;
+`;
+
+const Logo = styled.span`
+  flex: 1;
+  font-size:2em;
+  color: rgb(0,121,211);
+`;
+
+const Button = styled.button`
+  background: ${ props => props.logIn ? "white"  : "rgb(0, 121, 211)" };
+  color: ${ props => props.logIn ? "rgb(0, 121, 211)" : "white" };
+  font-size: 1em;
+  margin: 0.5em;
+  padding: 0.25em 1em;
+  border: 2px solid rgb(0,121,211);
+  border-radius: 3px;
+  cursor:pointer;
+`;
