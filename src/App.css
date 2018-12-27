@@ -18,6 +18,15 @@
   font-size: large;
 }
 
+.App-SideStory{
+  margin-bottom: 30px;
+}
+.App-Divider {
+  position: relative;
+  border-bottom: 1px solid rgba(0,0,0,.15);
+  margin: 24px auto;
+}
+
 @keyframes App-logo-spin {
   from { transform: rotate(0deg); }
   to { transform: rotate(360deg); }

@@ -11,9 +11,11 @@ const Header = () => (
 export default Header;
 
 const Container = styled.div`
-  margin: 20px;
+  margin: 20px 0 20px 0;
   display: flex;
   align-items: center;
+  box-shadow: 0 2px #cccccc;
+  padding:5px;
 `;
 
 const Logo = styled.span`
