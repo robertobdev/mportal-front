@@ -4,29 +4,31 @@ import Header from './components/Header';
 import styled from 'styled-components';
 import MainStory from './components/MainStory';
 import SideStory from './components/SideStory';
+import SignUp from './Pages/SignUp';
 
 class App extends Component {
   render() {
     return (
       <Content>
         <Header />
-        <Section>
-          <MainStory src="https://cdn-images-1.medium.com/max/1000/1*9sCetaK23zSJmcvNXYhhUA.jpeg" />
-          <SectionSideStories>
-            <SideStory direction="left" src="https://cdn-images-1.medium.com/max/1000/1*9sCetaK23zSJmcvNXYhhUA.jpeg" />
-            <SideStory direction="left" src="https://cdn-images-1.medium.com/max/1000/1*9sCetaK23zSJmcvNXYhhUA.jpeg" />
-            <SideStory direction="left" src="https://cdn-images-1.medium.com/max/1000/1*9sCetaK23zSJmcvNXYhhUA.jpeg" />
-          </SectionSideStories>
-        </Section>
-        <div className="App-Divider"></div>
-        <Section sideStory>
-          <SideStory direction="right" src="https://cdn-images-1.medium.com/max/1000/1*9sCetaK23zSJmcvNXYhhUA.jpeg" />
-          <SideStory direction="right" src="https://cdn-images-1.medium.com/max/1000/1*9sCetaK23zSJmcvNXYhhUA.jpeg" />
-          <SideStory direction="right" src="https://cdn-images-1.medium.com/max/1000/1*9sCetaK23zSJmcvNXYhhUA.jpeg" />
-          <SideStory direction="right" src="https://cdn-images-1.medium.com/max/1000/1*9sCetaK23zSJmcvNXYhhUA.jpeg" />
-          <SideStory direction="right" src="https://cdn-images-1.medium.com/max/1000/1*9sCetaK23zSJmcvNXYhhUA.jpeg" />
-          <SideStory direction="right" src="https://cdn-images-1.medium.com/max/1000/1*9sCetaK23zSJmcvNXYhhUA.jpeg" />  
-        </Section>
+        <SignUp />
+        {/* <Section> */}
+          {/* <MainStory src="https://cdn-images-1.medium.com/max/1000/1*9sCetaK23zSJmcvNXYhhUA.jpeg" /> */}
+          {/* <SectionSideStories> */}
+            {/* <SideStory direction="left" src="https://cdn-images-1.medium.com/max/1000/1*9sCetaK23zSJmcvNXYhhUA.jpeg" /> */}
+            {/* <SideStory direction="left" src="https://cdn-images-1.medium.com/max/1000/1*9sCetaK23zSJmcvNXYhhUA.jpeg" /> */}
+            {/* <SideStory direction="left" src="https://cdn-images-1.medium.com/max/1000/1*9sCetaK23zSJmcvNXYhhUA.jpeg" /> */}
+          {/* </SectionSideStories> */}
+        {/* </Section> */}
+        {/* <div className="App-Divider"></div> */}
+        {/* <Section sideStory> */}
+          {/* <SideStory direction="right" src="https://cdn-images-1.medium.com/max/1000/1*9sCetaK23zSJmcvNXYhhUA.jpeg" /> */}
+          {/* <SideStory direction="right" src="https://cdn-images-1.medium.com/max/1000/1*9sCetaK23zSJmcvNXYhhUA.jpeg" /> */}
+          {/* <SideStory direction="right" src="https://cdn-images-1.medium.com/max/1000/1*9sCetaK23zSJmcvNXYhhUA.jpeg" /> */}
+          {/* <SideStory direction="right" src="https://cdn-images-1.medium.com/max/1000/1*9sCetaK23zSJmcvNXYhhUA.jpeg" /> */}
+          {/* <SideStory direction="right" src="https://cdn-images-1.medium.com/max/1000/1*9sCetaK23zSJmcvNXYhhUA.jpeg" /> */}
+          {/* <SideStory direction="right" src="https://cdn-images-1.medium.com/max/1000/1*9sCetaK23zSJmcvNXYhhUA.jpeg" />   */}
+        {/* </Section> */}
       </Content>
     );
   }

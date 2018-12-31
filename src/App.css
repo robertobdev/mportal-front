@@ -26,6 +26,9 @@
   border-bottom: 1px solid rgba(0,0,0,.15);
   margin: 24px auto;
 }
+.App-Btn-SignUp{
+  margin:20px !important;
+}
 
 @keyframes App-logo-spin {
   from { transform: rotate(0deg); }
