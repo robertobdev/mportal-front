@@ -1,11 +1,13 @@
 import React from 'react';
 import styled from 'styled-components';
-
+import { Link } from 'react-router-dom'
 const Header = () => (
   <Container>
     <Logo>Mportal</Logo>
     <Button logIn>Login</Button>
-    <Button>Cadastrar</Button>
+    <Link to="/signup">
+      <Button >Cadastrar</Button>
+    </Link>
   </Container>
 );
 export default Header;
