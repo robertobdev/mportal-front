@@ -4,7 +4,9 @@ import { Link } from 'react-router-dom'
 const Header = () => (
   <Container>
     <Logo>Mportal</Logo>
-    <Button logIn>Login</Button>
+    <Link to="/login">
+      <Button logIn>Login</Button>
+    </Link>
     <Link to="/signup">
       <Button >Cadastrar</Button>
     </Link>

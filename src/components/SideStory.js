@@ -4,12 +4,12 @@ import Signature from './Signature';
 import Info from './Info';
 import { Photo } from './Style';
 
-const SideStory = ({direction, src}) => (
+const SideStory = ({direction, story}) => (
   <Container direction={direction}>
-    <Photo sideLeft src={src} alt="mainStory"></Photo>
+    <Photo sideLeft src={story.image} alt="mainStory"></Photo>
     <Infos>
-      <Info title="American Daredevil" subTitle="Kirk Jones jumped off Niagara Falls twice. The first time, he made it. The second time, he died."/>
-      <Signature name="Rachel Vorona Cote" date="Aug 24"/>
+      <Info title={story.title} subTitle={story.subTitle}/>
+      <Signature name={story.author} date={story.date}/>
     </Infos>
   </Container>
 );

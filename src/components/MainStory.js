@@ -4,11 +4,11 @@ import Signature from './Signature';
 import Info from './Info';
 import { Photo } from './Style';
 
-const MainStory = (props) => (
+const MainStory = ({story}) => (
   <Container>
-    <Photo src={props.src} alt="mainStory"></Photo>
-    <Info title="American Daredevil" subTitle="Kirk Jones jumped off Niagara Falls twice. The first time, he made it. The second time, he died."/>
-    <Signature name="Rachel Vorona Cote" date="Aug 24"/>
+    <Photo src={story.image} alt="mainStory"></Photo>
+    <Info title={story.title} subTitle={story.subTitle}/>
+    <Signature name={story.author} date={story.date}/>
   </Container>
 );
 export default MainStory;
