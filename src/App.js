@@ -1,17 +1,15 @@
 import React, { Component } from 'react';
 import './App.css';
-import Header from './components/Header';
 import styled from 'styled-components';
 import MainStory from './components/MainStory';
 import SideStory from './components/SideStory';
-import SignUp from './Pages/SignUp';
 
 class App extends Component {
 
   constructor(){
     super();
     this.state = {
-      stories:[];
+      stories:[]
     }
   }
 
@@ -110,7 +108,7 @@ class App extends Component {
     return (
       <Content>
         <Section>
-          <MainStory story={stories.mainStory} />
+          <MainStory story={stories.mainStory}/>
           <SectionSideStories>
             {stories.sideStories.highlights.map(story => {
               return <SideStory key={story.id} direction="left" story={story} />

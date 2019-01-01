@@ -5,6 +5,7 @@ import './index.css';
 import Header from './components/Header';
 import SignUp from './Pages/SignUp';
 import LogIn from './Pages/LogIn';
+import DetailStory from './Pages/DetailStory';
 import { BrowserRouter, Switch, Route} from 'react-router-dom';
 ReactDOM.render(
   <BrowserRouter>
@@ -13,6 +14,7 @@ ReactDOM.render(
         <div>
           <Header />
           <Route path="/" exact={true} component={App} />
+          <Route path="/story/:id" component={DetailStory} />
           <Route path="/signup" component={SignUp} />
           <Route path="/login" component={LogIn} />
         </div>

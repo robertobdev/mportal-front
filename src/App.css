@@ -30,6 +30,11 @@
   margin:20px !important;
 }
 
+.App-Avatar{
+  color: rgb(0,121,211);
+  border: rgb(0,121,211) 1px solid;
+}
+
 @keyframes App-logo-spin {
   from { transform: rotate(0deg); }
   to { transform: rotate(360deg); }
