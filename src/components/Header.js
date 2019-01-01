@@ -32,7 +32,9 @@ class Header extends Component {
           <PermIdentity />
         </IconButton>
         <Menu open={Boolean(anchorEl)} anchorEl={anchorEl} onClose={this.handleClose}>
-          <MenuItem onClick={this.handleClose}>Minhas Historias</MenuItem>
+          <Link to="/list">
+            <MenuItem onClick={this.handleClose}>Minhas Historias</MenuItem>
+          </Link>
           <MenuItem onClick={this.handleClose}>Criar História</MenuItem>
           <MenuItem onClick={this.handleClose}>Configuraćões</MenuItem>
           <MenuItem onClick={this.handleClose}>Logout</MenuItem>
