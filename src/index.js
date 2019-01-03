@@ -15,13 +15,13 @@ ReactDOM.render(
       <Route>
         <div>
           <Header />
-          <Route path="/" exact={true} component={App} />
-          <Route path="/story/:id" exact={true} component={DetailStory} />
-          <Route path="/list" exact={true} component={ListStory} />
-          <Route path="/signup" exact={true} component={SignUp} />
-          <Route path="/login" exact={true} component={LogIn} />
-          <Route path="/create/" exact={true} component={CreateStory} />
-          <Route path="/create/:id" exact={true} component={CreateStory} />
+          <Route path="/" exact component={App} />
+          <Route path="/story/:id" exact component={DetailStory} />
+          <Route path="/list" exact component={ListStory} />
+          <Route path="/signup" exact component={SignUp} />
+          <Route path="/login" exact component={LogIn} />
+          <Route path="/create/" exact component={CreateStory} />
+          <Route path="/create/:id" exact component={CreateStory} />
         </div>
       </Route>
     </Switch>
