@@ -16,12 +16,12 @@ ReactDOM.render(
         <div>
           <Header />
           <Route path="/" exact={true} component={App} />
-          <Route path="/story/:id" component={DetailStory} />
-          <Route path="/list" component={ListStory} />
-          <Route path="/signup" component={SignUp} />
-          <Route path="/login" component={LogIn} />
-          <Route path="/create" component={CreateStory} />
-          <Route path="/create/:id" component={CreateStory} />
+          <Route path="/story/:id" exact={true} component={DetailStory} />
+          <Route path="/list" exact={true} component={ListStory} />
+          <Route path="/signup" exact={true} component={SignUp} />
+          <Route path="/login" exact={true} component={LogIn} />
+          <Route path="/create/" exact={true} component={CreateStory} />
+          <Route path="/create/:id" exact={true} component={CreateStory} />
         </div>
       </Route>
     </Switch>
