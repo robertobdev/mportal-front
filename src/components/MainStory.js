@@ -6,6 +6,7 @@ import { Photo } from './Style';
 import {withRouter} from 'react-router-dom';
 class MainStory extends Component {
   constructor(){
+    console.log(localStorage.getItem('login'));
     super();
   }
   handleClick = (id) => {

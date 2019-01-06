@@ -2,7 +2,35 @@ import React, { Component } from "react";
 import { TextField, Button } from '@material-ui/core';
 import styled from 'styled-components';
 import '../App.css';
+import axios from 'axios';
+import { Link } from 'react-router-dom';
 class LogIn extends Component {
+
+  login = {
+    email : "",
+    password: ""
+  }
+
+  state = {
+    login: this.login
+  }
+
+  handleLogin = () => {
+    axios.post('http://localhost/api/login', this.state.login)
+    .then( res => {
+      localStorage.setItem('login', JSON.stringify(res.data));
+      this.props.history.push("/");
+    }).catch(() => {
+      
+    });
+  }
+
+  handleChange = event => {
+    let change = this.login;
+    change[event.target.name] = event.target.value;
+    console.log(change);
+    this.setState({login: change});
+  }
 
   render() {
     const style = {btn: `App-Btn-SignUp`}
@@ -18,15 +46,19 @@ class LogIn extends Component {
             type="email"
             margin="normal"
             variant="outlined"
+            name="email"
+            onChange={this.handleChange}
           />
           <TextField
             id="outlined-name"
             label="Senha"
             type="password"
             margin="normal"
+            name="password"
+            onChange={this.handleChange}
             variant="outlined"
           />
-          <Button variant="contained" color="primary" className={style.btn}>
+          <Button onClick={this.handleLogin} variant="contained" color="primary" className={style.btn}>
             Entrar
           </Button>
         </Content>
