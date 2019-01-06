@@ -6,7 +6,7 @@ import '../App.css';
 class CreateStory extends Component {
 
   handleImage = event => {
-    console.log(event);
+    // console.log(event);
   }
 
   render() {
