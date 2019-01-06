@@ -1,8 +1,13 @@
 import React, { Component } from "react";
-import { TextField, Button, } from '@material-ui/core';
+import { TextField, Button } from '@material-ui/core';
+import { CloudUpload } from '@material-ui/icons';
 import styled from 'styled-components';
 import '../App.css';
 class CreateStory extends Component {
+
+  handleImage = event => {
+    console.log(event);
+  }
 
   render() {
     const style = { btn: `App-Btn-SignUp` }
@@ -18,13 +23,15 @@ class CreateStory extends Component {
             type="text"
             margin="normal"
             variant="outlined"
+            name="title"
           />
           <TextField
             id="outlined-name"
-            label="Email"
-            type="email"
+            label="Subtítulo"
+            type="text"
             margin="normal"
             variant="outlined"
+            name="subtitle"
           />
           <TextField
             id="outlined-multiline-static"
@@ -34,7 +41,17 @@ class CreateStory extends Component {
             defaultValue="Default Value"
             margin="normal"
             variant="outlined"
+            name="image"
           />
+          <div>
+          <input type="file" onChange={this.handleImage}/>
+          <Button variant="contained" color="default" onChange={this.handleImage}>
+            Upload
+            <CloudUpload/>
+          </Button>
+
+          </div>
+
           <Button variant="contained" color="primary" className={style.btn}>
             Entrar
           </Button>

@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import './App.css';
+// import './App.css';
 import styled from 'styled-components';
 import MainStory from '../components/MainStory';
 import SideStory from '../components/SideStory';
