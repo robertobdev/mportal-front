@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { TextField, Button } from '@material-ui/core';
+import { TextField, Button, Select, MenuItem } from '@material-ui/core';
 import { CloudUpload } from '@material-ui/icons';
 import styled from 'styled-components';
 import '../App.css';
@@ -11,15 +11,13 @@ class CreateStory extends Component {
     title: '',
     subtitle: '',
     description: '',
+    category_id: '',
     image: null,
     imagePreview: this.imgDefault,
   }
   state = {
-    story: this.story
-  }
-
-  handleImage = event => {
-    console.log(event);
+    story: this.story,
+    categories : []
   }
 
   handleClick = event => {
@@ -43,21 +41,39 @@ class CreateStory extends Component {
   }
 
   handleSave = event => {
+    const { image, title, subtitle, description, category_id } = this.state.story;
     const fd = new FormData();
-    fd.append('image', this.state.story.image, 'image');
+    fd.append('image', image, 'image');
+    fd.append('title', title);
+    fd.append('subtitle', subtitle);
+    fd.append('description', description);
+    fd.append('category_id', category_id);
     const login = JSON.parse(localStorage.getItem('login'));
     const config = {
-      headers: {'Authorization': "Bearer " + login.success.token}
+      headers: { 'Authorization': "Bearer " + login.success.token }
     };
-    let a = { file : this.state.story.imagePreview, name : 'dsadasd'};
-    axios.post(`http://localhost/api/story`, a, config)
-      .then( res => {
+    axios.post(`http://localhost/api/story`, fd, config)
+      .then(res => {
         console.log(res);
+      });
+  }
+
+  componentWillMount(){
+    const login = JSON.parse(localStorage.getItem('login'));
+    const config = {
+      headers: { 'Authorization': "Bearer " + login.success.token }
+    };
+    axios.get(`http://localhost/api/category`, config)
+      .then(res => {
+        this.setState({categories : res.data});
+        console.log(res.data);
       });
   }
   render() {
     const style = { btn: `App-Btn-SignUp`, uploadBtn: `App-Upload` };
-    const { image } = this.state.story;
+    const { image, category_id } = this.state.story;
+    const { categories } = this.state;
+
     return (
       <Container>
         <Header>
@@ -82,6 +98,17 @@ class CreateStory extends Component {
             name="subtitle"
             onChange={this.handleOnChange}
           />
+          <Select
+            value={category_id}
+            onChange={this.handleOnChange}
+            inputProps={{
+              name: 'category_id'
+            }}
+          >
+            {categories.map( category => {
+              return <MenuItem key={category.id} value={category.id}>{category.description}</MenuItem>
+            })}
+          </Select>
           <TextField
             id="outlined-multiline-static"
             label="Multiline"

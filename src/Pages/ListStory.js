@@ -1,12 +1,15 @@
 import React, { Component } from "react";
-import { Button, List, ListItem, ListItemText, 
-        ListItemSecondaryAction, IconButton,
-        Dialog, DialogActions, DialogContent,DialogContentText,
-        Slide, DialogTitle } from '@material-ui/core';
+import {
+  Button, List, ListItem, ListItemText,
+  ListItemSecondaryAction, IconButton,
+  Dialog, DialogActions, DialogContent, DialogContentText,
+  Slide, DialogTitle
+} from '@material-ui/core';
 import styled from 'styled-components';
 import { DeleteForever, Edit } from '@material-ui/icons';
 import '../App.css';
 import { Link } from 'react-router-dom';
+import axios from 'axios';
 
 function Transition(props) {
   return <Slide direction="up" {...props} />;
@@ -20,6 +23,7 @@ class ListStory extends Component {
 
   state = {
     open: false,
+    stories: []
   };
 
   handleClickOpen = () => {
@@ -30,9 +34,22 @@ class ListStory extends Component {
     this.setState({ open: false });
   };
 
+  componentWillMount() {
+    const login = JSON.parse(localStorage.getItem('login'));
+    const config = {
+      headers: { 'Authorization': "Bearer " + login.success.token }
+    };
+    axios.get(`http://localhost/api/story`, config)
+      .then(res => {
+        this.setState({ stories: res.data });
+        console.log(res);
+      });
+  }
+
 
   render() {
-    const style = { btn: `App-Btn-SignUp` }
+    const style = { btn: `App-Btn-SignUp` };
+    const { stories } = this.state;
     return (
       <Container>
         <Header>
@@ -43,19 +60,23 @@ class ListStory extends Component {
         </Header>
         <Content>
           <List>
-            <ListItem>
-              <ListItemText primary="Single-line item" />
-              <ListItemSecondaryAction>
-                <IconButton onClick={this.handleClickOpen}>
-                  <DeleteForever />
-                </IconButton>
-                <Link to="/create/3">
-                  <IconButton>
-                    <Edit />
-                  </IconButton>
-                </Link>
-              </ListItemSecondaryAction>
-            </ListItem>
+            {stories.map(story => {
+              return (
+                <ListItem key={story.id}>
+                  <ListItemText primary={story.title} />
+                  <ListItemSecondaryAction>
+                    <IconButton onClick={this.handleClickOpen}>
+                      <DeleteForever />
+                    </IconButton>
+                    <Link to="/create/3">
+                      <IconButton>
+                        <Edit />
+                      </IconButton>
+                    </Link>
+                  </ListItemSecondaryAction>
+                </ListItem>
+              )
+            })}
           </List>
         </Content>
         <Dialog
