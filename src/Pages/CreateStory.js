@@ -8,29 +8,30 @@ import axios from 'axios';
 class CreateStory extends Component {
   id = this.props.match.params.id;
   imgDefault = `https://cdn.pixabay.com/photo/2014/06/01/21/05/photo-effect-359981_960_720.jpg`;
-  story = {
-    title: '',
-    subtitle: '',
-    description: '',
-    category_id: '',
-    user_id: '',
-    imagePath: '',
-    image: null,
-    imagePreview: this.imgDefault,
-  }
   state = {
-    story: this.story,
-    categories: []
+    story: {
+      title: '',
+      subtitle: '',
+      description: '',
+      category_id: 1,
+      user_id: '',
+      imagePath: '',
+      image: null,
+      imagePreview: this.imgDefault,
+    },
+    categories: [],
+    error : false
   }
 
   handleClick = (event) => {
     document.getElementById('fileInput').click();
   }
+
   onChange = (file) => {
     this.imgDefault = URL.createObjectURL(file);
     let change = this.state.story;
     change.imagePreview = this.imgDefault;
-
+    this.setState({error: false});
     const reader = new FileReader();
 
     reader.onloadend = () => {
@@ -47,15 +48,22 @@ class CreateStory extends Component {
   }
 
   handleSave = (event) => {
+    event.preventDefault();
+    if(!this.state.story.image){
+      this.setState({error : true});
+      return;
+    }
     if (this.id) {
       axios.patch(`http://localhost/api/story/${this.id}`, this.state.story, config)
         .then(res => {
+          this.redirectToList();
           console.log(res);
         });
       return;
     }
     axios.post(`http://localhost/api/story`, this.state.story, config)
       .then(res => {
+        this.redirectToList();
         console.log(res);
       });
   }
@@ -72,80 +80,96 @@ class CreateStory extends Component {
           const { category_id, description, id, image, subtitle, title, user_id } = res.data;
           let story = { category_id, user_id, description, id, image, imagePath: image, subtitle, title, imagePreview: `http://localhost/storage/${image}` };
           this.setState({ story });
+        }).catch(error => {
+          this.redirectToList();
         });
     }
   }
+  redirectToList = () => {
+    return this.props.history.push("/list");
+  }
   render = () => {
-    const style = { btn: `App-Btn-SignUp`, uploadBtn: `App-Upload` };
-    const { category_id, description, id, image, subtitle, title, imagePreview } = this.state.story;
-    const { categories } = this.state;
+    const style = { btn: `App-Btn-SignUp`, uploadBtn: `App-Upload`, form: `App-Form` };
+    const { category_id, description, subtitle, title, imagePreview } = this.state.story;
+    const { categories, error } = this.state;
+    const showError = error ?  <Error> Favor inserir uma foto. </Error> : '';
     return (
       <Container>
         <Header>
           <h2>Login</h2>
         </Header>
         <Content>
-          <TextField
-            id="outlined-name"
-            label="Titulo"
-            type="text"
-            margin="normal"
-            variant="outlined"
-            name="title"
-            value={title}
-            onChange={this.handleOnChange}
-          />
-          <TextField
-            id="outlined-name"
-            label="Subtítulo"
-            type="text"
-            margin="normal"
-            variant="outlined"
-            name="subtitle"
-            value={subtitle}
-            onChange={this.handleOnChange}
-          />
-          <Select
-            value={category_id}
-            onChange={this.handleOnChange}
-            inputProps={{
-              name: 'category_id'
-            }}
-          >
-            {categories.map(category => {
-              return <MenuItem key={category.id} value={category.id}>{category.description}</MenuItem>
-            })}
-          </Select>
-          <TextField
-            id="outlined-multiline-static"
-            label="Multiline"
-            multiline
-            rows="9"
-            margin="normal"
-            variant="outlined"
-            name="description"
-            value={description}
-            onChange={this.handleOnChange}
-          />
-          <Upload>
-            <input type="file" style={{ display: 'none' }} id="fileInput"
-              onChange={e => { this.onChange(e.currentTarget.files[0]) }} />
-            <Photo src={imagePreview} />
-            <Button variant="contained" color="default" className={style.uploadBtn} onClick={(event) => this.handleClick(event)}>
-              Upload
+          <form className={style.form} onSubmit={this.handleSave}>
+            <TextField
+              required
+              id="outlined-name"
+              label="Titulo"
+              type="text"
+              margin="normal"
+              variant="outlined"
+              name="title"
+              value={title}
+              onChange={this.handleOnChange}
+            />
+            <TextField
+              required
+              id="outlined-name"
+              label="Subtítulo"
+              type="text"
+              margin="normal"
+              variant="outlined"
+              name="subtitle"
+              value={subtitle}
+              onChange={this.handleOnChange}
+            />
+            <Select
+              required
+              value={category_id}
+              onChange={this.handleOnChange}
+              inputProps={{
+                name: 'category_id'
+              }}
+            >
+              {categories.map(category => {
+                return <MenuItem key={category.id} value={category.id}>{category.description}</MenuItem>
+              })}
+            </Select>
+            <TextField
+              required
+              id="outlined-multiline-static"
+              label="Multiline"
+              multiline
+              rows="9"
+              margin="normal"
+              variant="outlined"
+              name="description"
+              value={description}
+              onChange={this.handleOnChange}
+            />
+            <Upload>
+              <input type="file" style={{ display: 'none' }} id="fileInput"
+                onChange={e => { this.onChange(e.currentTarget.files[0]) }} />
+              <Photo src={imagePreview} />
+              <Button variant="contained" color="default" className={style.uploadBtn} onClick={(event) => this.handleClick(event)}>
+                Upload
               <CloudUpload />
+              </Button>
+            </Upload>
+            {showError}
+            <Button variant="contained" color="primary" className={style.btn} type="submit">
+              Salvar
             </Button>
-          </Upload>
-
-          <Button variant="contained" color="primary" className={style.btn} onClick={this.handleSave}>
-            Entrar
-          </Button>
+          </form>
         </Content>
 
       </Container>
     );
   }
 }
+
+const Error = styled.h4`
+  color:red;
+`;
 
 const Upload = styled.div`
   display: flex;

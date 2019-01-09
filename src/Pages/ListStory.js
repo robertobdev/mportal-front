@@ -10,6 +10,7 @@ import { DeleteForever, Edit } from '@material-ui/icons';
 import '../App.css';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
+import { config } from '../Utils/GetToken';
 
 function Transition(props) {
   return <Slide direction="up" {...props} />;
@@ -23,22 +24,30 @@ class ListStory extends Component {
 
   state = {
     open: false,
+    toDelete: null,
     stories: []
   };
 
-  handleClickOpen = () => {
-    this.setState({ open: true });
+  handleClickOpen = (id) => {
+    this.setState({ open: true, toDelete: id });
   };
 
   handleClose = () => {
-    this.setState({ open: false });
+    this.setState({ open: false, toDelete: null });
   };
 
+  handleClickDelete = () => {
+    axios.delete(`http://localhost/api/story/${this.state.toDelete}`, config)
+    .then( res => {
+      let stories = this.state.stories.filter((story) =>{
+        return story.id !== this.state.toDelete;
+      })
+      this.setState({open: false, stories});
+      console.log(res);
+    });
+  }
+
   componentWillMount() {
-    const login = JSON.parse(localStorage.getItem('login'));
-    const config = {
-      headers: { 'Authorization': "Bearer " + login.success.token }
-    };
     axios.get(`http://localhost/api/story`, config)
       .then(res => {
         this.setState({ stories: res.data });
@@ -65,10 +74,10 @@ class ListStory extends Component {
                 <ListItem key={story.id}>
                   <ListItemText primary={story.title} />
                   <ListItemSecondaryAction>
-                    <IconButton onClick={this.handleClickOpen}>
+                    <IconButton onClick={() => this.handleClickOpen(story.id)}>
                       <DeleteForever />
                     </IconButton>
-                    <Link to="/create/3">
+                    <Link to={`/create/${story.id}`}>
                       <IconButton>
                         <Edit />
                       </IconButton>
@@ -86,20 +95,19 @@ class ListStory extends Component {
           onClose={this.handleClose}
         >
           <DialogTitle id="alert-dialog-slide-title">
-            {"Use Google's location service?"}
+            Confirmação de exclusão
           </DialogTitle>
           <DialogContent>
             <DialogContentText id="alert-dialog-slide-description">
-              Let Google help apps determine location. This means sending anonymous location data to
-              Google, even when no apps are running.
+              Você realmente deseja excluir essa história?
             </DialogContentText>
           </DialogContent>
           <DialogActions>
             <Button onClick={this.handleClose} color="primary">
-              Disagree
+              Não
             </Button>
-            <Button onClick={this.handleClose} color="primary">
-              Agree
+            <Button onClick={this.handleClickDelete} color="primary">
+              Sim
             </Button>
           </DialogActions>
         </Dialog>
