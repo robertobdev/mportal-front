@@ -3,77 +3,82 @@ import { TextField, Button, Select, MenuItem } from '@material-ui/core';
 import { CloudUpload } from '@material-ui/icons';
 import styled from 'styled-components';
 import '../App.css';
+import { config } from '../Utils/GetToken';
 import axios from 'axios';
 class CreateStory extends Component {
-
+  id = this.props.match.params.id;
   imgDefault = `https://cdn.pixabay.com/photo/2014/06/01/21/05/photo-effect-359981_960_720.jpg`;
   story = {
     title: '',
     subtitle: '',
     description: '',
     category_id: '',
+    user_id: '',
+    imagePath: '',
     image: null,
     imagePreview: this.imgDefault,
   }
   state = {
     story: this.story,
-    categories : []
+    categories: []
   }
 
-  handleClick = event => {
+  handleClick = (event) => {
     document.getElementById('fileInput').click();
   }
   onChange = (file) => {
     this.imgDefault = URL.createObjectURL(file);
-    let change = this.story;
-    change.image = file;
+    let change = this.state.story;
     change.imagePreview = this.imgDefault;
-    this.setState({ store: change });
-    console.log(this.imgDefault);
+
+    const reader = new FileReader();
+
+    reader.onloadend = () => {
+      change.image = reader.result;
+      this.setState({ store: change });
+    }
+    reader.readAsDataURL(file);
   }
 
   handleOnChange = (event) => {
-    let change = this.story;
+    let change = this.state.story;
     change[event.target.name] = event.target.value;
-
     this.setState({ story: change });
-    console.log(this.state.story);
   }
 
-  handleSave = event => {
-    const { image, title, subtitle, description, category_id } = this.state.story;
-    const fd = new FormData();
-    fd.append('image', image, 'image');
-    fd.append('title', title);
-    fd.append('subtitle', subtitle);
-    fd.append('description', description);
-    fd.append('category_id', category_id);
-    const login = JSON.parse(localStorage.getItem('login'));
-    const config = {
-      headers: { 'Authorization': "Bearer " + login.success.token }
-    };
-    axios.post(`http://localhost/api/story`, fd, config)
+  handleSave = (event) => {
+    if (this.id) {
+      axios.patch(`http://localhost/api/story/${this.id}`, this.state.story, config)
+        .then(res => {
+          console.log(res);
+        });
+      return;
+    }
+    axios.post(`http://localhost/api/story`, this.state.story, config)
       .then(res => {
         console.log(res);
       });
   }
 
-  componentWillMount(){
-    const login = JSON.parse(localStorage.getItem('login'));
-    const config = {
-      headers: { 'Authorization': "Bearer " + login.success.token }
-    };
+  componentWillMount = () => {
     axios.get(`http://localhost/api/category`, config)
       .then(res => {
-        this.setState({categories : res.data});
+        this.setState({ categories: res.data });
         console.log(res.data);
       });
+    if (this.id) {
+      axios.get(`http://localhost/api/story/${this.id}`, config)
+        .then(res => {
+          const { category_id, description, id, image, subtitle, title, user_id } = res.data;
+          let story = { category_id, user_id, description, id, image, imagePath: image, subtitle, title, imagePreview: `http://localhost/storage/${image}` };
+          this.setState({ story });
+        });
+    }
   }
-  render() {
+  render = () => {
     const style = { btn: `App-Btn-SignUp`, uploadBtn: `App-Upload` };
-    const { image, category_id } = this.state.story;
+    const { category_id, description, id, image, subtitle, title, imagePreview } = this.state.story;
     const { categories } = this.state;
-
     return (
       <Container>
         <Header>
@@ -87,6 +92,7 @@ class CreateStory extends Component {
             margin="normal"
             variant="outlined"
             name="title"
+            value={title}
             onChange={this.handleOnChange}
           />
           <TextField
@@ -96,6 +102,7 @@ class CreateStory extends Component {
             margin="normal"
             variant="outlined"
             name="subtitle"
+            value={subtitle}
             onChange={this.handleOnChange}
           />
           <Select
@@ -105,7 +112,7 @@ class CreateStory extends Component {
               name: 'category_id'
             }}
           >
-            {categories.map( category => {
+            {categories.map(category => {
               return <MenuItem key={category.id} value={category.id}>{category.description}</MenuItem>
             })}
           </Select>
@@ -114,16 +121,16 @@ class CreateStory extends Component {
             label="Multiline"
             multiline
             rows="9"
-            defaultValue="Default Value"
             margin="normal"
             variant="outlined"
             name="description"
+            value={description}
             onChange={this.handleOnChange}
           />
           <Upload>
             <input type="file" style={{ display: 'none' }} id="fileInput"
               onChange={e => { this.onChange(e.currentTarget.files[0]) }} />
-            <Photo src={image} />
+            <Photo src={imagePreview} />
             <Button variant="contained" color="default" className={style.uploadBtn} onClick={(event) => this.handleClick(event)}>
               Upload
               <CloudUpload />
