@@ -14,7 +14,8 @@ class DetailStory extends Component {
   }
 
   componentWillMount = () => {
-    axios.get(`http://localhost/api/stories/1`)
+    const id = this.props.match.params.id;
+    axios.get(`http://localhost/api/stories/${id}`)
       .then(res => {
         this.setState({ story: res.data })
         console.log(res.data.user.name);
@@ -23,7 +24,6 @@ class DetailStory extends Component {
 
   render() {
     const { story } = this.state;
-    console.log(story);
     return (
       <div>
         <Img image={`http://localhost/storage/${story.image}`} />

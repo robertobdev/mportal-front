@@ -3,105 +3,20 @@ import React, { Component } from 'react';
 import styled from 'styled-components';
 import MainStory from '../components/MainStory';
 import SideStory from '../components/SideStory';
-
+import axios from 'axios';
 class Main extends Component {
 
   constructor(){
     super();
     this.state = {
-      stories:[]
+      stories:{sideStories : {highlights: null, list : null}, main:null}
     }
   }
 
   componentWillMount(){
-    this.setState({ "stories" : {
-      "sideStories": {
-        "list": [ 
-          {
-            "id": 1,
-            "title": "American Daredevil",
-            "subTitle": "Kirk Jones jumped off Niagara Falls twice. The first time, he made it. The second time, he died.",
-            "author": "Rachel Vorona Cote",
-            "date": "Aug 24",
-            "image":"https://cdn-images-1.medium.com/max/1000/1*9sCetaK23zSJmcvNXYhhUA.jpeg"
-          },
-          {
-            "id": 2,
-            "title": "American Daredevil",
-            "subTitle": "Kirk Jones jumped off Niagara Falls twice. The first time, he made it. The second time, he died.",
-            "author": "Rachel Vorona Cote",
-            "date": "Aug 24",
-            "image":"https://cdn-images-1.medium.com/max/1000/1*9sCetaK23zSJmcvNXYhhUA.jpeg"
-          },
-          {
-            "id": 3,
-            "title": "American Daredevil",
-            "subTitle": "Kirk Jones jumped off Niagara Falls twice. The first time, he made it. The second time, he died.",
-            "author": "Rachel Vorona Cote",
-            "date": "Aug 24",
-            "image":"https://cdn-images-1.medium.com/max/1000/1*9sCetaK23zSJmcvNXYhhUA.jpeg"
-          },
-          {
-            "id": 4,
-            "title": "American Daredevil",
-            "subTitle": "Kirk Jones jumped off Niagara Falls twice. The first time, he made it. The second time, he died.",
-            "author": "Rachel Vorona Cote",
-            "date": "Aug 24",
-            "image":"https://cdn-images-1.medium.com/max/1000/1*9sCetaK23zSJmcvNXYhhUA.jpeg"
-          },
-          {
-            "id": 5,
-            "title": "American Daredevil",
-            "subTitle": "Kirk Jones jumped off Niagara Falls twice. The first time, he made it. The second time, he died.",
-            "author": "Rachel Vorona Cote",
-            "date": "Aug 24",
-            "image":"https://cdn-images-1.medium.com/max/1000/1*9sCetaK23zSJmcvNXYhhUA.jpeg"
-          },
-          {
-            "id": 6,
-            "title": "American Daredevil",
-            "subTitle": "Kirk Jones jumped off Niagara Falls twice. The first time, he made it. The second time, he died.",
-            "author": "Rachel Vorona Cote",
-            "date": "Aug 24",
-            "image":"https://cdn-images-1.medium.com/max/1000/1*9sCetaK23zSJmcvNXYhhUA.jpeg"
-          }
-        ],
-        "highlights": [
-          {
-            "id": 1,
-            "title": "American Daredevil",
-            "subTitle": "Kirk Jones jumped off Niagara Falls twice. The first time, he made it. The second time, he died.",
-            "author": "Rachel Vorona Cote",
-            "date": "Aug 24",
-            "image":"https://cdn-images-1.medium.com/max/1000/1*9sCetaK23zSJmcvNXYhhUA.jpeg"
-          },
-          {
-            "id": 2,
-            "title": "American Daredevil",
-            "subTitle": "Kirk Jones jumped off Niagara Falls twice. The first time, he made it. The second time, he died.",
-            "author": "Rachel Vorona Cote",
-            "date": "Aug 24",
-            "image":"https://cdn-images-1.medium.com/max/1000/1*9sCetaK23zSJmcvNXYhhUA.jpeg"
-          },
-          {
-            "id": 3,
-            "title": "American Daredevil",
-            "subTitle": "Kirk Jones jumped off Niagara Falls twice. The first time, he made it. The second time, he died.",
-            "author": "Rachel Vorona Cote",
-            "date": "Aug 24",
-            "image":"https://cdn-images-1.medium.com/max/1000/1*9sCetaK23zSJmcvNXYhhUA.jpeg"
-          }
-        ]
-      },
-      "mainStory": {
-        "id": 1,
-        "title": "American Daredevil",
-        "subTitle": "Kirk Jones jumped off Niagara Falls twice. The first time, he made it. The second time, he died.",
-        "author": "Rachel Vorona Cote",
-        "date": "Aug 24",
-        "image":"https://cdn-images-1.medium.com/max/1000/1*9sCetaK23zSJmcvNXYhhUA.jpeg"
-      }
-    }});
+    axios.get(`http://localhost/api/stories`).then(res => {
+      this.setState({stories: res.data});
+    });
   }
   render() {
     const {stories} = this.state;
@@ -110,15 +25,19 @@ class Main extends Component {
         <Section>
           <MainStory story={stories.mainStory}/>
           <SectionSideStories>
-            {stories.sideStories.highlights.map(story => {
-              return <SideStory key={story.id} direction="left" story={story} />
+            {this.state && stories.sideStories.highlights && stories.sideStories.highlights.map(story => {
+              console.log(story);
+              if(story){
+                return <SideStory key={story && story.id} direction="left" story={story} />
+              }
+              return 
             })}
           </SectionSideStories>
         </Section>
         <div className="App-Divider"></div>
         <Section sideStory>
-          {stories.sideStories.list.map((story) => {
-            return <SideStory key={story.id} direction="right" story={story} />
+          {stories.sideStories.list && stories.sideStories.list.map((story) => {
+            return <SideStory key={story && story.id} direction="right" story={story} />
           })}
         </Section>
       </Content>
