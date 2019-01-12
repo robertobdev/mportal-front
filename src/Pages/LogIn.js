@@ -3,71 +3,73 @@ import { TextField, Button } from '@material-ui/core';
 import styled from 'styled-components';
 import '../App.css';
 import axios from 'axios';
-import { Link } from 'react-router-dom';
+import { Error, Form } from '../components/Style';
 class LogIn extends Component {
-
-  login = {
-    email : "",
-    password: ""
-  }
-
   state = {
-    login: this.login
+    login: {
+      email: "",
+      password: ""
+    },
+    error : null
   }
 
-  handleLogin = () => {
+  handleLogin = (event) => {
+    event.preventDefault();
     axios.post('http://localhost/api/login', this.state.login)
-    .then( res => {
-      localStorage.setItem('login', JSON.stringify(res.data));
-      this.props.history.push("/");
-    }).catch(() => {
-      
-    });
+      .then(res => {
+        localStorage.setItem('login', JSON.stringify(res.data));
+        this.props.history.push("/");
+      }).catch(() => {
+        this.setState({error : true});
+      });
   }
 
   handleChange = event => {
-    let change = this.login;
+    let change = this.state.login;
     change[event.target.name] = event.target.value;
     console.log(change);
-    this.setState({login: change});
+    this.setState({ login: change });
   }
 
   render() {
-    const style = {btn: `App-Btn-SignUp`}
+    const style = { btn: `App-Btn-SignUp` }
+    const showError = this.state.error ? <Error>Usuario ou senha inválidos</Error> : '';
     return (
       <Container>
         <Header>
           <h2>Login</h2>
         </Header>
         <Content>
-          <TextField
-            id="outlined-name"
-            label="Email"
-            type="email"
-            margin="normal"
-            variant="outlined"
-            name="email"
-            onChange={this.handleChange}
-          />
-          <TextField
-            id="outlined-name"
-            label="Senha"
-            type="password"
-            margin="normal"
-            name="password"
-            onChange={this.handleChange}
-            variant="outlined"
-          />
-          <Button onClick={this.handleLogin} variant="contained" color="primary" className={style.btn}>
-            Entrar
-          </Button>
+          {showError}
+          <Form onSubmit={this.handleLogin}>
+            <TextField
+              label="Email"
+              type="email"
+              margin="normal"
+              variant="outlined"
+              name="email"
+              required
+              onChange={this.handleChange}
+            />
+            <TextField
+              required
+              label="Senha"
+              type="password"
+              margin="normal"
+              name="password"
+              onChange={this.handleChange}
+              variant="outlined"
+            />
+            <Button type="submit" variant="contained" color="primary" className={style.btn}>
+              Entrar
+            </Button>
+          </Form>
         </Content>
-        
+
       </Container>
     );
   }
 }
-
 const Container = styled.div`
   border:1px solid #cccccc;
   display:flex;

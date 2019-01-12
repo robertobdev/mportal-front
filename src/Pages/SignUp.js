@@ -3,6 +3,7 @@ import { TextField, Button } from '@material-ui/core';
 import styled from 'styled-components';
 import '../App.css';
 import axios from 'axios';
+import { Error, Form}  from '../components/Style';
 class SignUp extends Component {
 
   state = {
@@ -93,9 +94,6 @@ class SignUp extends Component {
   }
 }
 
-const Error = styled.h4`
-  color:red;
-`;
 const Container = styled.div`
   border:1px solid #cccccc;
   display:flex;
@@ -103,11 +101,6 @@ const Container = styled.div`
   width: 100%;
   max-width: 700px;
   justify-content: space-between;
-  flex-direction: column;
-`;
-
-const Form = styled.form`
-  display: flex;
   flex-direction: column;
 `;
 

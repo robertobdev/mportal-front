@@ -5,6 +5,7 @@ import styled from 'styled-components';
 import '../App.css';
 import { config } from '../Utils/GetToken';
 import axios from 'axios';
+import { Error}  from '../components/Style';
 class CreateStory extends Component {
   id = this.props.match.params.id;
   imgDefault = `https://cdn.pixabay.com/photo/2014/06/01/21/05/photo-effect-359981_960_720.jpg`;
@@ -166,11 +167,6 @@ class CreateStory extends Component {
     );
   }
 }
-
-const Error = styled.h4`
-  color:red;
-`;
-
 const Upload = styled.div`
   display: flex;
   align-items:center;

@@ -48,6 +48,7 @@ class ListStory extends Component {
   }
 
   componentWillMount() {
+    console.log(config);
     axios.get(`http://localhost/api/story`, config)
       .then(res => {
         this.setState({ stories: res.data });
