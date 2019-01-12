@@ -1,36 +1,28 @@
 import React, { Component } from 'react';
-// import './App.css';
 import styled from 'styled-components';
 import MainStory from '../components/MainStory';
 import SideStory from '../components/SideStory';
 import axios from 'axios';
 class Main extends Component {
-
-  constructor(){
-    super();
-    this.state = {
-      stories:{sideStories : {highlights: null, list : null}, main:null}
-    }
+  state = {
+    stories: { sideStories: { highlights: null, list: null }, main: null }
   }
 
-  componentWillMount(){
+  componentWillMount() {
     axios.get(`http://localhost/api/stories`).then(res => {
-      this.setState({stories: res.data});
+      this.setState({ stories: res.data });
     });
   }
+
   render() {
-    const {stories} = this.state;
+    const { stories } = this.state;
     return (
       <Content>
         <Section>
-          <MainStory story={stories.mainStory}/>
+          <MainStory story={stories.mainStory} />
           <SectionSideStories>
             {this.state && stories.sideStories.highlights && stories.sideStories.highlights.map(story => {
-              console.log(story);
-              if(story){
-                return <SideStory key={story && story.id} direction="left" story={story} />
-              }
-              return 
+              return <SideStory key={story && story.id} direction="left" story={story} />
             })}
           </SectionSideStories>
         </Section>

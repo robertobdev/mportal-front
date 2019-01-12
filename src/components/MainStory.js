@@ -5,9 +5,7 @@ import Info from './Info';
 import {withRouter} from 'react-router-dom';
 import moment from 'moment';
 class MainStory extends Component {
-  constructor(){
-    super();
-  }
+
   handleClick = (id) => {
     const path = `/story/${id}`;
     this.props.history.push(path);

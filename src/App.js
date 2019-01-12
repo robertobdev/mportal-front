@@ -11,7 +11,6 @@ import { Switch, Route } from 'react-router-dom';
 import RequireAuth from './Utils/RequireAuth';
 class App extends Component {
   render() {
-    const d = true;
     return (
       <Switch>
         <Route>
@@ -22,8 +21,8 @@ class App extends Component {
             <Route path="/list" exact component={RequireAuth(ListStory)} />
             <Route path="/signup" exact component={SignUp} />
             <Route path="/login" exact component={LogIn} />
-            <Route path="/create/" exact component={RequireAuth(CreateStory)} />
-            <Route path="/create/:id" exact component={RequireAuth(CreateStory)} />
+            <Route path="/create/:id?" component={RequireAuth(CreateStory)} />
+            {/* <Route path="/create" exact component={RequireAuth(CreateStory)} /> */}
           </div>
         </Route>
       </Switch>

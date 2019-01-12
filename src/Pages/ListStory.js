@@ -18,10 +18,6 @@ function Transition(props) {
 
 class ListStory extends Component {
 
-  constructor() {
-    super();
-  }
-
   state = {
     open: false,
     toDelete: null,
@@ -58,14 +54,14 @@ class ListStory extends Component {
 
 
   render() {
-    const style = { btn: `App-Btn-SignUp` };
+    const style = { btn: `App-Btn-Create`, link: `App-Link` };
     const { stories } = this.state;
     return (
       <Container>
         <Header>
           <h2>Minhas Histórias</h2>
-          <Link to="/create">
-            <Button>Nova História</Button>
+          <Link to="/create" className={style.link}>
+            <Button className={style.btn}>Nova História</Button>
           </Link>
         </Header>
         <Content>

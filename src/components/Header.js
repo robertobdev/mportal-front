@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import styled from 'styled-components';
 import { Link, withRouter } from 'react-router-dom';
-import {Menu, MenuItem, IconButton} from '@material-ui/core';
+import { Menu, MenuItem, IconButton } from '@material-ui/core';
 import { PermIdentity } from '@material-ui/icons';
 import '../App.css';
 class Header extends Component {
@@ -12,7 +12,7 @@ class Header extends Component {
     this.setState({ anchorEl: event.currentTarget });
   };
   handleClose = (status) => {
-    if(status == "logout"){
+    if (status === "logout") {
       localStorage.removeItem('login');
       this.props.history.push('/');
     }
@@ -20,15 +20,15 @@ class Header extends Component {
     this.setState({ anchorEl: null });
   };
   isLogin() {
-    const style = {btn: `App-Avatar`}
+    const style = { btn: `App-Avatar` }
     const login = localStorage.getItem('login');
-    if(login){
+    if (login) {
       return (
         <IconButton className={style.btn} onClick={this.handleClick}>
           <PermIdentity />
         </IconButton>
       )
-    }else{
+    } else {
       return (
         <div>
           <Link to="/login">
@@ -41,28 +41,35 @@ class Header extends Component {
       )
     }
   }
-
+  goToMain = () => {
+    console.log('dsda');
+  }
   render() {
     const { anchorEl } = this.state;
-    return(
+    return (
       <Container>
-        <Logo>Mportal</Logo>
-        {this.isLogin()} 
+        <Logo><A href="/">Mportal</A></Logo>
+        {this.isLogin()}
         <Menu open={Boolean(anchorEl)} anchorEl={anchorEl} onClose={this.handleClose}>
           <Link to="/list">
             <MenuItem onClick={this.handleClose}>Minhas Historias</MenuItem>
           </Link>
-          <MenuItem onClick={this.handleClose}>Criar História</MenuItem>
           <MenuItem onClick={this.handleClose}>Configuraćões</MenuItem>
           <MenuItem onClick={() => this.handleClose('logout')}>Logout</MenuItem>
         </Menu>
       </Container>
     );
   }
-} 
+}
 
 
 export default withRouter(Header);
+
+const A = styled.a`
+  text-decoration: none;
+  cursor:pointer;  
+  color: inherit;
+`;
 
 const Container = styled.div`
   margin: 20px 0 20px 0;
@@ -72,6 +79,7 @@ const Container = styled.div`
   padding:5px;
 `;
 
+
 const Logo = styled.span`
   flex: 1;
   font-size:2em;
@@ -79,8 +87,8 @@ const Logo = styled.span`
 `;
 
 const Button = styled.button`
-  background: ${ props => props.logIn ? "white"  : "rgb(0, 121, 211)" };
-  color: ${ props => props.logIn ? "rgb(0, 121, 211)" : "white" };
+  background: ${ props => props.logIn ? "white" : "rgb(0, 121, 211)"};
+  color: ${ props => props.logIn ? "rgb(0, 121, 211)" : "white"};
   font-size: 1em;
   margin: 0.5em;
   padding: 0.25em 1em;
