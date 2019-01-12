@@ -2,56 +2,100 @@ import React, { Component } from "react";
 import { TextField, Button } from '@material-ui/core';
 import styled from 'styled-components';
 import '../App.css';
+import axios from 'axios';
 class SignUp extends Component {
 
+  state = {
+    signup: {
+      name: '',
+      email: '',
+      password: '',
+      c_password: ''
+    },
+    error: null
+  };
+
+  handleInput = (event) => {
+    let change = this.state.signup;
+    change[event.target.name] = event.target.value;
+    this.setState({ signup: change });
+    console.log(this.state.signup);
+  }
+
+  handleClick = (event) => {
+    event.preventDefault();
+    axios.post(`http://localhost/api/register`, this.state.signup)
+    .then( res => {
+      localStorage.setItem('login', JSON.stringify(res.data));
+      this.props.history.push("/");
+      console.log(res);
+    }).catch( err => {
+      this.setState({error: true});
+    });
+  }
+
   render() {
-    const style = {btn: `App-Btn-SignUp`}
+    const style = { btn: `App-Btn-SignUp` }
+    const showError = this.state.error ?  <Error> Erro ao registrar login </Error> : '';
     return (
       <Container>
         <Header>
           <h2>Cadastrar</h2>
         </Header>
-        {/* 
-        <input type="text" placeholder="description"></input>
-        <input type="text" placeholder="avatar"></input> */}
         <Content>
-          <TextField
-            id="outlined-name"
-            label="Name"
-            margin="normal"
-            variant="outlined"
-          />
-          <TextField
-            id="outlined-name"
-            label="Email"
-            type="email"
-            margin="normal"
-            variant="outlined"
-          />
-          <TextField
-            id="outlined-name"
-            label="Senha"
-            type="password"
-            margin="normal"
-            variant="outlined"
-          />
-          <TextField
-            id="outlined-name"
-            label="Confirmacão de Senha"
-            type="password"
-            margin="normal"
-            variant="outlined"
-          />
-          <Button variant="contained" color="primary" className={style.btn}>
-            Cadastrar
+          {showError}
+          <Form onSubmit={this.handleClick}>
+            <TextField
+              label="Name"
+              margin="normal"
+              variant="outlined"
+              name="name"
+              onChange={this.handleInput}
+              required
+            />
+            <TextField
+              label="Email"
+              type="email"
+              margin="normal"
+              variant="outlined"
+              name="email"
+              onChange={this.handleInput}
+              required
+            />
+            <TextField
+              label="Senha"
+              type="password"
+              margin="normal"
+              variant="outlined"
+              name="password"
+              inputProps={{ minLength: 6 }}
+              onChange={this.handleInput}
+              required
+            />
+            <TextField
+              label="Confirmacão de Senha"
+              type="password"
+              margin="normal"
+              variant="outlined"
+              name="c_password"
+              inputProps={{ minLength: 6 }}
+              onChange={this.handleInput}
+              required
+            />
+            <Button variant="contained" color="primary" type="submit" className={style.btn}>
+              Cadastrar
           </Button>
+          </Form>
         </Content>
-        
+
       </Container>
     );
   }
 }
 
+const Error = styled.h4`
+  color:red;
+`;
 const Container = styled.div`
   border:1px solid #cccccc;
   display:flex;
@@ -59,6 +103,11 @@ const Container = styled.div`
   width: 100%;
   max-width: 700px;
   justify-content: space-between;
+  flex-direction: column;
+`;
+
+const Form = styled.form`
+  display: flex;
   flex-direction: column;
 `;
 
