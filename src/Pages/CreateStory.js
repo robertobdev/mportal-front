@@ -70,6 +70,11 @@ class CreateStory extends Component {
   }
 
   componentWillMount = () => {
+    //FIXME: had to put this piece of code here for auth component
+    const getToken = localStorage.getItem('login'); 
+    if(!getToken) { 
+      this.props.history.replace({pathname: '/'}); 
+    } 
     axios.get(`http://localhost/api/category`, config)
       .then(res => {
         this.setState({ categories: res.data });
