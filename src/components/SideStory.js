@@ -4,25 +4,27 @@ import Signature from './Signature';
 import Info from './Info';
 import { withRouter } from 'react-router-dom';
 import moment from 'moment';
+import { urlImg } from '../Utils/GetToken';
 class SideStory extends Component {
-  
+
   handleClick = (id) => {
     const path = `/story/${id}`;
     this.props.history.push(path);
   }
 
   render = () => {
-    const {direction, story} = this.props;
+    const { direction, story } = this.props;
     return (
-      <Container direction={direction}  onClick={this.handleClick.bind(this, story.id)}>
-        <Photo sideLeft src={`http://localhost/storage/${story.image}`} alt="mainStory"></Photo>
+      <Container direction={direction} onClick={this.handleClick.bind(this, story.id)}>
+        <Photo sideLeft src={`${urlImg}${story.image}`} alt="mainStory"></Photo>
         <Infos>
-          <Info title={story.title} subTitle={story.subtitle}/>
-          <Signature name={story.user.name} date={moment(story.date).format('ll')}/>
+          <Info title={story.title} subTitle={story.subtitle} />
+          <Signature name={story.user.name} date={moment(story.date).format('ll')} />
         </Infos>
       </Container>
-    )};
-} 
+    )
+  };
+}
 
 export default withRouter(SideStory);
 

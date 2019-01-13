@@ -4,6 +4,7 @@ import styled from 'styled-components';
 import '../App.css';
 import axios from 'axios';
 import { Error, Form } from '../components/Style';
+import { url } from '../Utils/GetToken';
 class LogIn extends Component {
   state = {
     login: {
@@ -15,7 +16,7 @@ class LogIn extends Component {
 
   handleLogin = (event) => {
     event.preventDefault();
-    axios.post('http://localhost/api/login', this.state.login)
+    axios.post(`${url}login`, this.state.login)
       .then(res => {
         localStorage.setItem('login', JSON.stringify(res.data));
         this.props.history.push("/");

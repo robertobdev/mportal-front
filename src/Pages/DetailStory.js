@@ -4,6 +4,7 @@ import Signature from '../components/Signature';
 import styled from 'styled-components';
 import axios from 'axios';
 import moment from 'moment';
+import {url, urlImg} from '../Utils/GetToken';
 class DetailStory extends Component {
 
   constructor() {
@@ -15,7 +16,7 @@ class DetailStory extends Component {
 
   componentWillMount = () => {
     const id = this.props.match.params.id;
-    axios.get(`http://localhost/api/stories/${id}`)
+    axios.get(`${url}stories/${id}`)
       .then(res => {
         this.setState({ story: res.data })
         console.log(res.data.user.name);
@@ -26,7 +27,7 @@ class DetailStory extends Component {
     const { story } = this.state;
     return (
       <div>
-        <Img image={`http://localhost/storage/${story.image}`} />
+        <Img image={`${urlImg}${story.image}`} />
         <Content>
           <Info title={story.title} subTitle={story.subtitle} />
           <Signature name={story.user.name} date={moment(story.date).format('ll')} />

@@ -3,13 +3,14 @@ import styled from 'styled-components';
 import MainStory from '../components/MainStory';
 import SideStory from '../components/SideStory';
 import axios from 'axios';
+import { url } from '../Utils/GetToken';
 class Main extends Component {
   state = {
     stories: { sideStories: { highlights: null, list: null }, main: null }
   }
 
   componentWillMount() {
-    axios.get(`http://localhost/api/stories`).then(res => {
+    axios.get(`${url}stories`).then(res => {
       this.setState({ stories: res.data });
     });
   }

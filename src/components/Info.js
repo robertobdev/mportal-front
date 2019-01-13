@@ -7,6 +7,7 @@ const Info = (props) => (
     <Span>{props.subTitle}</Span>
   </Div>
 );
+
 export default Info;
 
 const Div = styled.div`
@@ -14,8 +15,8 @@ const Div = styled.div`
 `;
 
 const Span = styled.span`
-  color: ${ props => props.title ? "black" : "rgba(0,0,0,.54)" };
-  font-size: ${ props => props.title ? "18px" : "14px" };
+  color: ${ props => props.title ? "black" : "rgba(0,0,0,.54)"};
+  font-size: ${ props => props.title ? "18px" : "14px"};
   margin-bottom: 20px;
   display:block;
 `;

@@ -2,22 +2,23 @@ import React, { Component } from 'react';
 import styled from 'styled-components';
 import Signature from './Signature';
 import Info from './Info';
-import {withRouter} from 'react-router-dom';
+import { withRouter } from 'react-router-dom';
 import moment from 'moment';
+import { urlImg } from '../Utils/GetToken';
 class MainStory extends Component {
 
-  handleClick = (id) => {
+  handleClick = id => {
     const path = `/story/${id}`;
     this.props.history.push(path);
-    
   }
-  render(){
-    const {story} = this.props;
+
+  render() {
+    const { story } = this.props;
     return (
       <Container onClick={this.handleClick.bind(this, story && story.id)}>
-        <Photo src={story && `http://localhost/storage/${story.image}` } alt="mainStory"></Photo>
-        <Info title={story && story.title} subTitle={story && story.subtitle}/>
-        <Signature name={story && story.user.name} date={story && moment(story.date).format('ll')}/>
+        <Photo src={story && `${urlImg}${story.image}`} alt="mainStory"></Photo>
+        <Info title={story && story.title} subTitle={story && story.subtitle} />
+        <Signature name={story && story.user.name} date={story && moment(story.date).format('ll')} />
       </Container>
     )
   }

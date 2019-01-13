@@ -8,17 +8,19 @@ class Header extends Component {
   state = {
     anchorEl: null
   };
+
   handleClick = event => {
     this.setState({ anchorEl: event.currentTarget });
   };
-  handleClose = (status) => {
+
+  handleClose = status => {
     if (status === "logout") {
       localStorage.removeItem('login');
       this.props.history.push('/');
     }
-    console.log(status);
     this.setState({ anchorEl: null });
   };
+
   isLogin() {
     const style = { btn: `App-Avatar` }
     const login = localStorage.getItem('login');
@@ -41,9 +43,7 @@ class Header extends Component {
       )
     }
   }
-  goToMain = () => {
-    console.log('dsda');
-  }
+
   render() {
     const { anchorEl } = this.state;
     return (

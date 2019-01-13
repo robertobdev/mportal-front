@@ -3,9 +3,9 @@ import { TextField, Button, Select, MenuItem } from '@material-ui/core';
 import { CloudUpload } from '@material-ui/icons';
 import styled from 'styled-components';
 import '../App.css';
-import { config } from '../Utils/GetToken';
+import { config, url, urlImg } from '../Utils/GetToken';
 import axios from 'axios';
-import { Error}  from '../components/Style';
+import { Error } from '../components/Style';
 class CreateStory extends Component {
   id = this.props.match.params.id;
   imgDefault = `https://cdn.pixabay.com/photo/2014/06/01/21/05/photo-effect-359981_960_720.jpg`;
@@ -21,7 +21,7 @@ class CreateStory extends Component {
       imagePreview: this.imgDefault,
     },
     categories: [],
-    error : false
+    error: false
   }
 
   handleClick = (event) => {
@@ -32,7 +32,7 @@ class CreateStory extends Component {
     this.imgDefault = URL.createObjectURL(file);
     let change = this.state.story;
     change.imagePreview = this.imgDefault;
-    this.setState({error: false});
+    this.setState({ error: false });
     const reader = new FileReader();
 
     reader.onloadend = () => {
@@ -50,19 +50,19 @@ class CreateStory extends Component {
 
   handleSave = (event) => {
     event.preventDefault();
-    if(!this.state.story.image){
-      this.setState({error : true});
+    if (!this.state.story.image) {
+      this.setState({ error: true });
       return;
     }
     if (this.id) {
-      axios.patch(`http://localhost/api/story/${this.id}`, this.state.story, config)
+      axios.patch(`${url}story/${this.id}`, this.state.story, config)
         .then(res => {
           this.redirectToList();
           console.log(res);
         });
       return;
     }
-    axios.post(`http://localhost/api/story`, this.state.story, config)
+    axios.post(`${url}story`, this.state.story, config)
       .then(res => {
         this.redirectToList();
         console.log(res);
@@ -71,20 +71,20 @@ class CreateStory extends Component {
 
   componentWillMount = () => {
     //FIXME: had to put this piece of code here for auth component
-    const getToken = localStorage.getItem('login'); 
-    if(!getToken) { 
-      this.props.history.replace({pathname: '/'}); 
-    } 
-    axios.get(`http://localhost/api/category`, config)
+    const getToken = localStorage.getItem('login');
+    if (!getToken) {
+      this.props.history.replace({ pathname: '/' });
+    }
+    axios.get(`${url}category`, config)
       .then(res => {
         this.setState({ categories: res.data });
         console.log(res.data);
       });
     if (this.id) {
-      axios.get(`http://localhost/api/story/${this.id}`, config)
+      axios.get(`${url}story/${this.id}`, config)
         .then(res => {
           const { category_id, description, id, image, subtitle, title, user_id } = res.data;
-          let story = { category_id, user_id, description, id, image, imagePath: image, subtitle, title, imagePreview: `http://localhost/storage/${image}` };
+          let story = { category_id, user_id, description, id, image, imagePath: image, subtitle, title, imagePreview: `${urlImg}${image}` };
           this.setState({ story });
         }).catch(error => {
           this.redirectToList();
@@ -98,7 +98,7 @@ class CreateStory extends Component {
     const style = { btn: `App-Btn-SignUp`, uploadBtn: `App-Upload`, form: `App-Form` };
     const { category_id, description, subtitle, title, imagePreview } = this.state.story;
     const { categories, error } = this.state;
-    const showError = error ?  <Error> Favor inserir uma foto. </Error> : '';
+    const showError = error ? <Error> Favor inserir uma foto. </Error> : '';
     return (
       <Container>
         <Header>
@@ -176,11 +176,11 @@ const Upload = styled.div`
   display: flex;
   align-items:center;
 `;
+
 const Photo = styled.img`
   flex: 3;
   max-height:160px;
 `;
-
 
 const Container = styled.div`
   border:1px solid #cccccc;
@@ -204,6 +204,7 @@ const Header = styled.div`
   border-bottom: 1px solid #cccccc;
   padding-left:16px;
 `;
+
 export default CreateStory;
 
 

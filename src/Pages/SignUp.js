@@ -4,6 +4,7 @@ import styled from 'styled-components';
 import '../App.css';
 import axios from 'axios';
 import { Error, Form}  from '../components/Style';
+import { url } from '../Utils/GetToken';
 class SignUp extends Component {
 
   state = {
@@ -25,7 +26,7 @@ class SignUp extends Component {
 
   handleClick = (event) => {
     event.preventDefault();
-    axios.post(`http://localhost/api/register`, this.state.signup)
+    axios.post(`${url}register`, this.state.signup)
     .then( res => {
       localStorage.setItem('login', JSON.stringify(res.data));
       this.props.history.push("/");
