@@ -18,8 +18,7 @@ class DetailStory extends Component {
     const id = this.props.match.params.id;
     axios.get(`${url}stories/${id}`)
       .then(res => {
-        this.setState({ story: res.data })
-        console.log(res.data.user.name);
+        this.setState({ story: res.data });
       });
   }
 

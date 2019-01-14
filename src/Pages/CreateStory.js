@@ -65,7 +65,6 @@ class CreateStory extends Component {
     axios.post(`${url}story`, this.state.story, config)
       .then(res => {
         this.redirectToList();
-        console.log(res);
       });
   }
 
@@ -78,7 +77,6 @@ class CreateStory extends Component {
     axios.get(`${url}category`, config)
       .then(res => {
         this.setState({ categories: res.data });
-        console.log(res.data);
       });
     if (this.id) {
       axios.get(`${url}story/${this.id}`, config)

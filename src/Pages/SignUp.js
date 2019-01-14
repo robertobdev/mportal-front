@@ -21,7 +21,6 @@ class SignUp extends Component {
     let change = this.state.signup;
     change[event.target.name] = event.target.value;
     this.setState({ signup: change });
-    console.log(this.state.signup);
   }
 
   handleClick = (event) => {
@@ -30,7 +29,6 @@ class SignUp extends Component {
     .then( res => {
       localStorage.setItem('login', JSON.stringify(res.data));
       this.props.history.push("/");
-      console.log(res);
     }).catch( err => {
       this.setState({error: true});
     });

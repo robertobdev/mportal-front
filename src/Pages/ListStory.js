@@ -39,16 +39,13 @@ class ListStory extends Component {
         return story.id !== this.state.toDelete;
       })
       this.setState({open: false, stories});
-      console.log(res);
     });
   }
 
   componentWillMount() {
-    console.log(config);
     axios.get(`${url}story`, config)
       .then(res => {
         this.setState({ stories: res.data });
-        console.log(res);
       });
   }
 
