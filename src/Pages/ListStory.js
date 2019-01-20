@@ -10,7 +10,7 @@ import { DeleteForever, Edit } from '@material-ui/icons';
 import '../App.css';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
-import { config, url } from '../Utils/GetToken';
+import { update, url } from '../Utils/GetToken';
 
 function Transition(props) {
   return <Slide direction="up" {...props} />;
@@ -33,7 +33,7 @@ class ListStory extends Component {
   };
 
   handleClickDelete = () => {
-    axios.delete(`${url}story/${this.state.toDelete}`, config)
+    axios.delete(`${url}story/${this.state.toDelete}`, update())
     .then( res => {
       let stories = this.state.stories.filter((story) =>{
         return story.id !== this.state.toDelete;
@@ -43,7 +43,7 @@ class ListStory extends Component {
   }
 
   componentWillMount() {
-    axios.get(`${url}story`, config)
+    axios.get(`${url}story`, update())
       .then(res => {
         this.setState({ stories: res.data });
       });

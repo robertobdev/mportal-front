@@ -3,7 +3,7 @@ import { TextField, Button, Select, MenuItem } from '@material-ui/core';
 import { CloudUpload } from '@material-ui/icons';
 import styled from 'styled-components';
 import '../App.css';
-import { config, url, urlImg } from '../Utils/GetToken';
+import { update, url, urlImg } from '../Utils/GetToken';
 import axios from 'axios';
 import { Error } from '../components/Style';
 class CreateStory extends Component {
@@ -55,14 +55,14 @@ class CreateStory extends Component {
       return;
     }
     if (this.id) {
-      axios.patch(`${url}story/${this.id}`, this.state.story, config)
+      axios.patch(`${url}story/${this.id}`, this.state.story, update())
         .then(res => {
           this.redirectToList();
           console.log(res);
         });
       return;
     }
-    axios.post(`${url}story`, this.state.story, config)
+    axios.post(`${url}story`, this.state.story, update())
       .then(res => {
         this.redirectToList();
       });
@@ -74,12 +74,12 @@ class CreateStory extends Component {
     if (!getToken) {
       this.props.history.replace({ pathname: '/' });
     }
-    axios.get(`${url}category`, config)
+    axios.get(`${url}category`, update())
       .then(res => {
         this.setState({ categories: res.data });
       });
     if (this.id) {
-      axios.get(`${url}story/${this.id}`, config)
+      axios.get(`${url}story/${this.id}`, update())
         .then(res => {
           const { category_id, description, id, image, subtitle, title, user_id } = res.data;
           let story = { category_id, user_id, description, id, image, imagePath: image, subtitle, title, imagePreview: `${urlImg}${image}` };
