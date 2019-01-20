@@ -45,6 +45,9 @@ const Section = styled.section`
 const SectionSideStories = styled.section`
   margin-left: 16px;
   flex:1;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
 `;
 const Content = styled.div`
   max-width: 1080px;

@@ -39,9 +39,12 @@ const Photo = styled.img`
 const Container = styled.div`
   ${props => props.direction === 'right' ? `display: flex` : 'display: block; text-align: center;'};
   flex-direction: ${props => props.direction === 'left' ? 'row' : 'row-reverse'};
+  margin-bottom: 1em;
+  cursor: pointer;
 `;
 
 const Infos = styled.div`
+  flex:2;
   display:flex;
   flex-wrap: wrap;
   flex-direction: column;
